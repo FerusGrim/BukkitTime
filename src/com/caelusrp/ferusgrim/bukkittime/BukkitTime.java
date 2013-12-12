@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BukkitTime extends JavaPlugin{
@@ -15,8 +14,6 @@ public class BukkitTime extends JavaPlugin{
 	private final String btNoPermission = " Not enough permissions!";
 	
 	public void onEnable(){
-		PluginDescriptionFile pdfInfo = this.getDescription();
-		logger.info(btName + " Running version (" + pdfInfo.getVersion() + ")");
 	}
 	
 	public void onDisable(){
@@ -62,13 +59,19 @@ public class BukkitTime extends JavaPlugin{
 		}
 		if(auth == true){
 			onDisable();
-			onEnable();
+			onReload();
 			logger.info(btName + " " + (player == null ?
 					"A console administrator" :
 						player.getName()) + " reloaded BukkitTime!");
+			return true;
 		}
 		sender.sendMessage(btName + btNoPermission);
 		return true;
+	}
+	
+	public void onReload(){
+		logger.info(btName + "Plugin has been enabled!");
+		onEnable();
 	}
 	
 	private boolean UseBukkitTime(CommandSender sender){
@@ -85,6 +88,7 @@ public class BukkitTime extends JavaPlugin{
 		if(auth == true){
 			Date BukkitTime = new Date();
 			sender.sendMessage("The time is: " + BukkitTime);
+			return true;
 		}
 		sender.sendMessage(btName + btNoPermission);
 		return true;
@@ -109,6 +113,7 @@ public class BukkitTime extends JavaPlugin{
 			sender.sendMessage("=> /bukkittime help                <");
 			sender.sendMessage("=> /bukkittime reload              <");
 			sender.sendMessage("====================================");
+			return true;
 		}
 		sender.sendMessage(btName + btNoPermission);
 		return true;
