@@ -1,5 +1,6 @@
 package com.caelusrp.ferusgrim.bukkittime;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -10,14 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BukkitTime extends JavaPlugin{
 	public static final Logger logger = Logger.getLogger("Minecraft");
-	private final String btName = "[BukkitTime]";
-	private final String btNoPermission = " Not enough permissions!";
+	private String btName = "[BukkitTime]";
+	private String btNoPermission = " Insufficient Privelages";
+	static String DateFormat = "hh:mma z";
 	
 	public void onEnable(){
 	}
 	
 	public void onDisable(){
-		logger.info(btName + " has been disabled!");
+		logger.info(btName + " BukkitTime has been disabled!");
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLable, String[] args){
@@ -43,6 +45,7 @@ public class BukkitTime extends JavaPlugin{
 		if(trimmedArgs.length == 0){
 			return UseBukkitTime(sender);
 		}
+		sender.sendMessage(btName + " Invalid argument!");
 		return true;
 	}
 	
@@ -63,6 +66,7 @@ public class BukkitTime extends JavaPlugin{
 			logger.info(btName + " " + (player == null ?
 					"A console administrator" :
 						player.getName()) + " reloaded BukkitTime!");
+			sender.sendMessage(btName + " BukkitTime has been reloaded!");
 			return true;
 		}
 		sender.sendMessage(btName + btNoPermission);
@@ -70,7 +74,7 @@ public class BukkitTime extends JavaPlugin{
 	}
 	
 	public void onReload(){
-		logger.info(btName + "Plugin has been enabled!");
+		logger.info(btName + " BukkitTime has been enabled!");
 		onEnable();
 	}
 	
@@ -86,10 +90,12 @@ public class BukkitTime extends JavaPlugin{
 			auth = true;
 		}
 		if(auth == true){
-			Date BukkitTime = new Date();
-			sender.sendMessage("The time is: " + BukkitTime);
-			return true;
-		}
+					SimpleDateFormat BukkitFormat = new SimpleDateFormat(DateFormat);
+					Date BukkitDate = new Date();
+					String BukkitString = BukkitFormat.format(BukkitDate);
+					sender.sendMessage(btName + " " + BukkitString);
+					return true;
+				}
 		sender.sendMessage(btName + btNoPermission);
 		return true;
 	}
@@ -107,11 +113,10 @@ public class BukkitTime extends JavaPlugin{
 		}
 		if(auth == true){
 			sender.sendMessage("====================================");
-			sender.sendMessage("=> BukkitTime Help Menu            <");
-			sender.sendMessage("====================================");
-			sender.sendMessage("=> /bukkittime                     <");
-			sender.sendMessage("=> /bukkittime help                <");
-			sender.sendMessage("=> /bukkittime reload              <");
+			sender.sendMessage("   > BukkitTime Help Menu <");
+			sender.sendMessage("         /bukkittime");
+			sender.sendMessage("         /bukkittime help");
+			sender.sendMessage("         /bukkittime reload");
 			sender.sendMessage("====================================");
 			return true;
 		}
