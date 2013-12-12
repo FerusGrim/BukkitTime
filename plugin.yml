@@ -5,7 +5,7 @@ version: 1.0.0
 main: com.caelusrp.ferusgrim.bukkittime.BukkitTime
 description: Simple plugin that, when used, displays the current server time.
 commands:
-    whitelist:
+    bukkittime:
         description: BukkitTime commands.
         usage: /<command> <variable>
 permissions:
